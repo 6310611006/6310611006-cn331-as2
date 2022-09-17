@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+{% extends 'university/base.html' %}
+{% block content %}
+<div class="allsubject">
+    
+    <center>
+    
+
+   
+    <table>
+        <tr><th>รหัสวิชา</th>
+            <th>ชื่อวิชา</th>
+            <th>ภาคการศึกษา</th>
+            <th>ปีการศึกษา</th>
+            <th>จำนวนที่นั่ง</th>
+            
+            <th></th>
+        </tr>
+        {% for sc in subject %}
+        <tr><td>{{sc.subject_id}}</td>
+            <td>{{sc.subject_name}}</td>
+            <td>{{sc.semester}}</td>
+            <td>{{sc.academic_year}}</td>
+            <td>{{sc.num_seats}}</td>
+            
+                {% if sc.num_seats != 0 %}
+
+                    <td><form action="{% url 'subject' sc.subject_id}" method="POST" >
+                        {% csrf_token %}    
+                        <input hidden type="text" name="enroll" value="{{ sc.subject_id }}">
+                        <input type="submit" class="float-right btn btn-light border btn-sm" value="enroll">
+
+                    </form></td>
+                {% else %}
+                    <td> OUT </td>
+                {% endif %} 
+            
+        </tr>
+        {% endfor  %}
+    </table>
+
+    </center>
+    
+  </div>
+ 
+  {% endblock content%}
+
+
+  
+
+
