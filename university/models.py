@@ -1,38 +1,34 @@
+from email.policy import default
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator, MaxValueValidator
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
+
+@receiver(post_save, sender=User)
+def create_user_picks(sender, instance, created, **kwargs):
+    if created:
+        Student.objects.create(name=instance)
 
 class Subject(models.Model):
-
-    subject_id = models.CharField(max_length=10,primary_key=True)
     subject_name = models.CharField(max_length=200)
-    semester = models.IntegerField(validators=[MinValueValidator(1),MaxValueValidator(2)], default =1)
-    academic_year = models.IntegerField(validators=[MinValueValidator(1),MaxValueValidator(4)], default =1)
-    num_seats = models.IntegerField()
-    available = models.BooleanField(default =True)
-    
-    
+    subject_id = models.CharField(max_length=200)
+    section = models.CharField(max_length=200)
+    academic_year = models.CharField(max_length=200)
+    semester = models.CharField(max_length=200)
+    num_seat = models.PositiveIntegerField(default = 0)
+    status = models.BooleanField(default = False)
+
     def __str__(self):
-        return self.subject_id + '-' + self.subject_name + '-' + str(self.semester) + '-' + str(self.academic_year) + '-' + str(self.num_seats)
-
-class Enrolled(models.Model):
-
-    subject_id = models.CharField(max_length=10,primary_key=True)
-    subject_name = models.CharField(max_length=200)
-    semester = models.IntegerField(validators=[MinValueValidator(1),MaxValueValidator(2)], default =1)
-    academic_year = models.IntegerField(validators=[MinValueValidator(1),MaxValueValidator(4)], default =1)
-    num_seats = models.IntegerField(validators=[MinValueValidator(1)])
-    available = models.BooleanField(default =True)
-    
-   
-    def __str__(self):
-       return self.subject_id + '-' + self.subject_name + '-' + str(self.semester) + '-' + str(self.academic_year) + '-' + str(self.num_seats)
-
+        return f'{self.id}: {self.subject_id} {self.subject_name} {self.subject_id}: {self.section} {self.num_seat}'
+        
+    def is_seat_available(self):
+        return self.num_seat > 0
+            
 class Student(models.Model):
-    first = models.CharField(max_length=64)
-    last = models.CharField(max_length=64)
-    enroll_subject = models.ManyToManyField(Subject, blank=True, related_name="studentenroll")
+    name = models.ForeignKey(User, on_delete=models.CASCADE)
+    subject_enroll = models.ManyToManyField(Subject, related_name='student')
 
     def __str__(self):
-        return self.first + '-' + self.last
+        return f"{self.name.first_name} {self.name.last_name}"

@@ -1,49 +1,79 @@
 <!DOCTYPE html>
 {% extends 'university/base.html' %}
 {% block content %}
-<div class="allsubject">
-    
-    <center>
-    
+<div>
+    <div>
+        <h2> Subject You Want To Enroll </h2>
+        {% if Enroll.count != 0 %}
+            <table>
+                <td>Subject_id</td>
+                <td>SubjectName</td>
+                <td>Section</td>
+                <td>AcademicYear</td>
+                <td>Semester</td>
+                <td>Numseat</td>
+           
+                {% for e in Enroll.all %}
+                <tr>
+                    <td>{{ e.subject_id }}</td>
+                    <td>{{ e.subject_name }}</td>
+                    <td>{{ e.section }}</td>
+                    <td>{{ e.academic_year}}</td>
+                    <td>{{ e.semester }}</td>
+                    <td>{{ e.num_seat }} </td>
 
-   
-    <table>
-        <tr><th>รหัสวิชา</th>
-            <th>ชื่อวิชา</th>
-            <th>ภาคการศึกษา</th>
-            <th>ปีการศึกษา</th>
-            <th>จำนวนที่นั่ง</th>
-            
-            <th></th>
-        </tr>
-        {% for sc in subject %}
-        <tr><td>{{sc.subject_id}}</td>
-            <td>{{sc.subject_name}}</td>
-            <td>{{sc.semester}}</td>
-            <td>{{sc.academic_year}}</td>
-            <td>{{sc.num_seats}}</td>
-            
-                {% if sc.num_seats != 0 %}
-
-                    <td><form action="{% url 'subject' sc.subject_id}" method="POST" >
-                        {% csrf_token %}    
-                        <input hidden type="text" name="enroll" value="{{ sc.subject_id }}">
-                        <input type="submit" class="float-right btn btn-light border btn-sm" value="enroll">
-
+                    <td><form action="{% url 'remove-enroll' %}" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="user" value="{{ request.user.username }}">
+                        <button name="subject_id" value="{{ e.subject_id }}" type="Delete">remove</button>
                     </form></td>
-                {% else %}
-                    <td> OUT </td>
-                {% endif %} 
-            
-        </tr>
-        {% endfor  %}
-    </table>
+                </tr>
+                {% endfor %}
+            </table>
+            <br>
+        {% else %}
+            <h5><center> no subject enrolled </center></h5>
+        {% endif %}
+    </div>
 
-    </center>
+    <div>
+        <h2> List All Subject Can Enroll </h2>
+        {% if Subjects %}
+            <table>
+                <td>Subject_id</td>
+                <td>SubjectName</td>
+                <td>Section</td>
+                <td>AcademicYear</td>
+                <td>Semester</td>
+                <td>Numseat</td>
+               
+                {% for s in Subjects %}
+                <tr>
+                    <td>{{ s.subject_id }}</td>
+                    <td>{{ s.subject_name }}</td>
+                    <td>{{ s.section }}</td>
+                    <td>{{ s.academic_year }}</td>
+                    <td>{{ s.semester }}</td>
+                    <td>{{ s.num_seat }} </td>
+                    
+                    {% if s.num_seat != 0 %}
+                    <td><form action="{% url 'enroll-subject' %}" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="user" value="{{ request.user.username }}">
+                        <button name="subject_id" value="{{ s.subject_id }}" type="Submit">submit</button>
+                    </form></td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+            </table>
+        {% else %}
+        <center><h5>no subject</h5></center>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}
     
-  </div>
- 
-  {% endblock content%}
 
 
   

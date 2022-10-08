@@ -1,35 +1,26 @@
 <!DOCTYPE html>
 {% extends 'university/base.html' %}
 {% block content %}
-<html>
-<body>
+<div>
+  <div>
+      <h1>Subject Enrolled List:</h1>
+  </div>
 
-<table border="1">
-    <tr><th>รหัสวิชา</th>
-        <th>ชื่อวิชา</th>
-        <th>ภาคการศึกษา</th>
-        <th>ปีการศึกษา</th>
-        <th>จำนวนที่นั่ง</th>
-        <th></th>
-    </tr>
-  {% for x in enrolled %}
-    <tr><td>{{x.subject_id}}</td>
-        <td>{{x.subject_name}}</td>
-        <td>{{x.semester}}</td>
-        <td>{{x.academic_year}}</td>
-        <td>{{x.num_seats}}</td>
-        
-        <td><form action="{% url 'enrolled' x.subject_id}" method="POST" >
-          {% csrf_token %}    
-          <input hidden type="text" name="delete" value="{{ x.subject_id }}">
-          <input type="submit" class="float-right btn btn-light border btn-sm" value="delete">
 
-      </form></td>
-        
-  {% endfor %}
-    </tr>
-</table>
-
-</body>
-</html>        
-{% endblock content%}
+  <ul>
+      {% for enrolled in Enrolled.all %}
+      <p>
+          <div>
+            {{ enrolled.subject_id }}
+            {{ enrolled.subject_name }}
+            {{ enrolled.section }}
+              
+              
+          </div>
+      </p>
+      {% empty %}
+      <center><h5>no subject enrolled</h5></center>
+      {% endfor %}
+  </ul>
+</div>
+  {% endblock %}

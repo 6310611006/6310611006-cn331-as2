@@ -21,6 +21,4 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     #localhost:8000/
     path('', include('university.urls')),
-    path('login/',auth_views.LoginView.as_view(template_name='university/login.html'),name='login'),
-    path('logout/',auth_views.LogoutView.as_view(template_name='university/logout.html'),name='logout')
 ]

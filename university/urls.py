@@ -5,11 +5,14 @@ urlpatterns = [
     path('',views.HomePage,name='home-page'),
     path('about/',views.AboutPage,name='about-page'),
     path('contact/',views.ContactusPage,name='contact-page'),
-    path('register/',views.Register,name='register-page'),
-    path('enrolled/',views.enrolled,name='enrolled-page'),
-    path('subject/',views.subject, name='subject-page'),
-    path('subject/<str:pk>',views.post,name='add-enrolled'),
-    path('enrolled/<str:pk>',views.delete, name = 'delete-enrolled'),
+    path('register', views.RegistrationView.as_view(), name='register'),
+    path('login/', views.LoginView.as_view(), name='login'),
+    path('logout', views.LogoutView.as_view(), name='logout'),
+    path('subject', views.subject_page, name='subject-page'),
+    path('enrolled', views.enrolled, name='enrolled'),
+    path('enroll', views.enroll_subject, name='enroll-subject'),
+    path('remove_enroll', views.remove_enrolled, name='remove-enroll'),
+
     
     
    

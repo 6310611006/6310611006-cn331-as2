@@ -1,36 +1,88 @@
 <!DOCTYPE html>
 {% extends 'university/base.html' %}
-{% block content %}
-<div class="ContactUs">
-        <form method="POST">
-            {% csrf_token %}
-            <div class="form-group w-50">
-                <label for="first_name">name:</label>
-                <input type="text" class="form-control" id="first_name" name="first_name">
-            </div>
+{% block content%}
 
-            <div class="form-group w-50">
-                <label for="last_name">surname:</label>
-                <input type="text" class="form-control" id="last_name" name="last_name">
-            </div>
+<div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-6">
 
-            <div class="form-group w-50">
-              <label for="email">Email address:</label>
-              <input type="email" class="form-control" id="email" name="email">
-            </div>
+        <div class="row">
+            <div class="col-md-2">
 
-            <div class="form-group w-50">
-                <label for="username">Username:</label>
-                <input type="username" class="form-control" id="username" name="username">
-            </div>
 
-            <div class="form-group w-50">
-              <label for="password">Password:</label>
-              <input type="password" class="form-control" id="password" name="password">
             </div>
-    
-            <button type="submit" class="btn btn-primary">Register</button>
-        </form>
-  </div>
+            <div class="col-md-8">
+                <div class="card mt-5">
 
-  {% endblock content%}
+                </div>
+                {% include 'university/_flash_messages.html'%}
+                <form action="{% url 'register' %}" method="post">
+
+                    {% csrf_token %}
+
+                    <div class="form-group">
+                        <input class="form-control form-control-sm" type="email" name="email" value="{{data.email}}"
+                            placeholder="Email">
+
+
+                    </div>
+
+                    <div class="form-group">
+                        <input class="form-control form-control-sm" type="text" name="name" value="{{data.name}}"
+                            placeholder="FullName">
+
+
+                    </div>
+
+                    <div class="form-group">
+                        <input class="form-control form-control-sm" type="text" name="username"
+                            value="{{data.username}}" placeholder="Username">
+
+
+                    </div>
+
+                    <div class="form-group">
+                        <input class="form-control form-control-sm" type="password" name="password" value=""
+                            placeholder="Password">
+
+
+                    </div>
+
+                    <div class="form-group">
+                        <input class="form-control form-control-sm" type="password" name="password2" value=""
+                            placeholder="Confirm Password">
+
+
+                    </div>
+
+                    <input type="submit" value="Register" class="btn btn-sm btn-block btn-primary" />
+
+                </form>
+
+
+                <small class="py-3">
+                    By signing up, you agree to our Terms , Data Policy and Cookies Policy .
+                </small>
+
+            </div>
+        </div>
+
+
+        <div class="card mt-4">
+            <div class="card-body">
+                <p>
+                    Already have an account?<a href="{%url 'login'%}">Login</a>
+                </p>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-md-2"></div>
+</div>
+
+
+<div class="col-md-3"></div>
+
+
+
+{% endblock %}
