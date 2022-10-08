@@ -125,7 +125,7 @@ def subject_page(request):
 @login_required(login_url="login")
 def enrolled(request):
     enrolled = Student.objects.get(name__username=request.user).subject_enroll.order_by('subject_id')
-    return render(request, 'University/enrolledsubject.html', {
+    return render(request, 'university/enrolledsubject.html', {
         'Enrolled' : enrolled
     })
 

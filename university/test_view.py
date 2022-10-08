@@ -15,22 +15,31 @@ class TestViews(TestCase):
         response = self.client.get(reverse('home-page'))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'university/home.html')
+        #ทดสอบการเข้าถึงหน้า homepage โดยต้องใช้ template university/home.html
 
     def test_about_status_code(self):
         response = self.client.get(reverse('about-page'))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'university/about.html')
+        #ทดสอบการเข้าถึงหน้า aboutpage โดยต้องใช้ template university/about.html
 
     def test_contactus_status_code(self):
         response = self.client.get(reverse('contact-page'))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'university/contactus.html')
+        #ทดสอบการเข้าถึงหน้า contactuspage โดยต้องใช้ template university/contactus.html
 
     def test_subject_page_status_code(self):
         response = self.client.get(reverse('subject-page'))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'university/subject.html')
-    
+        #ทดสอบการเข้าถึงหน้า subjectpage โดยต้องใช้ template university/subject.html
+
+    def test_enrolled_page_status_code(self):
+        response = self.client.get(reverse('enrolled'))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'university/enrolledsubject.html')
+        #ทดสอบการเข้าถึงหน้า enrolledpage โดยต้องใช้ template university/enrolledsubject.html
 
 
 class UniversityTestCase(TestCase):
@@ -47,6 +56,7 @@ class UniversityTestCase(TestCase):
         c = Client()
         c.post(reverse('enroll-subject'), {'user': student.name,'subject_id': subject.subject_id})
         self.assertEqual(Subject.objects.get(subject_id=subject.subject_id).num_seat, 0)
+        #ทดสอบ method enroll subject เมื่อกด enroll ที่นั่งจะ -1 
 
     def test_remove_enroll(self):
         student = Student.objects.first()
@@ -54,4 +64,4 @@ class UniversityTestCase(TestCase):
         c = Client()
         c.post(reverse('remove-enroll'), {'user': student.name,'subject_id': subject.subject_id})
         self.assertEqual(Subject.objects.get(subject_id=subject.subject_id).num_seat, 1)
-
+        #ทดสอบ method remove enroll subject เมื่อกด remove วิชาที่ enroll ออก ที่นั่งจะ +1

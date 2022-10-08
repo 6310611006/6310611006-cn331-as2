@@ -14,7 +14,7 @@ class TestUrls(TestCase):
     def test_home_url_is_resolved(self):
         url = reverse('home-page')
         self.assertEquals(resolve(url).func, HomePage)
-
+        
     def test_about_url_is_resolved(self):
         url = reverse('about-page')
         self.assertEquals(resolve(url).func, AboutPage)

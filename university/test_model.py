@@ -13,8 +13,10 @@ class UniversityTestCase(TestCase):
     def test_seat_available(self):
         subject = Subject.objects.first()
         self.assertTrue(subject.is_seat_available())
+        #ทดสอบยังมีที่ว่างวิชานั้นไหม
 
     def test_seat_isnot_available(self):
         subject = Subject.objects.first()
         subject.num_seat -= 1
         self.assertFalse(subject.is_seat_available())
+        #ทดสอบไม่มีที่ว่างเหลือในวิชานั้น
